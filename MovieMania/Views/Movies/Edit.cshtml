@@ -6,21 +6,23 @@
         <div class="modal-content" style="background-color: #1a1a1a; border: 1px solid #2a2a2a; color: white;">
 
             <div class="modal-header" style="border-bottom: 1px solid #2a2a2a;">
-                <h5 class="modal-title">Добавяне на Филм</h5>
+                <h5 class="modal-title">✏️ Редактиране на Филм</h5>
             </div>
 
-            <form method="post" asp-controller="Movies" asp-action="Create">
+            <form method="post" asp-controller="Movies" asp-action="Edit">
+                <input type="hidden" asp-for="Id" />
+
                 <div class="modal-body">
                     <div class="row g-3">
 
                         <div class="col-md-8">
                             <label class="form-label small">Заглавие</label>
-                            <input name="Title" type="text" class="form-control" placeholder="Филмово заглавие" />
+                            <input asp-for="Title" class="form-control" placeholder="Филмово заглавие" />
                         </div>
 
                         <div class="col-md-4">
                             <label class="form-label small">Тип</label>
-                            <select name="Type" class="form-select">
+                            <select asp-for="Type" class="form-select">
                                 <option value="0">Филм</option>
                                 <option value="1">Сериал</option>
                             </select>
@@ -28,22 +30,22 @@
 
                         <div class="col-md-6">
                             <label class="form-label small">Режисьор</label>
-                            <input name="Director" type="text" class="form-control" placeholder="Режисьор" />
+                            <input asp-for="Director" class="form-control" placeholder="Режисьор" />
                         </div>
 
                         <div class="col-md-6">
                             <label class="form-label small">Жанр</label>
-                            <input name="Genre" type="text" class="form-control" placeholder="Напр. Екшън, драма" />
+                            <input asp-for="Genre" class="form-control" placeholder="Напр. Екшън, драма" />
                         </div>
 
                         <div class="col-md-4">
                             <label class="form-label small">Година на излъчване</label>
-                            <input name="ReleaseYear" type="number" class="form-control" placeholder="2024" />
+                            <input asp-for="ReleaseYear" type="number" class="form-control" placeholder="2024" />
                         </div>
 
                         <div class="col-md-4">
                             <label class="form-label small">Времетраене (минути)</label>
-                            <input name="Duration" type="number" class="form-control" placeholder="Напр. 120" />
+                            <input asp-for="Duration" type="number" class="form-control" placeholder="Напр. 120" />
                         </div>
 
                         <div class="col-md-4">
@@ -53,12 +55,12 @@
 
                         <div class="col-12">
                             <label class="form-label small">Image URL</label>
-                            <input name="ImageUrl" type="text" class="form-control" placeholder="https://..." />
+                            <input asp-for="ImageUrl" class="form-control" placeholder="https://..." />
                         </div>
 
                         <div class="col-12">
                             <label class="form-label small">Резюме</label>
-                            <textarea name="Description" class="form-control" rows="3" placeholder="Кратко резюме на филма/сериала..."></textarea>
+                            <textarea asp-for="Description" class="form-control" rows="3" placeholder="Кратко резюме на филма/сериала..."></textarea>
                         </div>
 
                     </div>
@@ -66,7 +68,7 @@
 
                 <div class="modal-footer" style="border-top: 1px solid #2a2a2a;">
                     <a asp-controller="Movies" asp-action="Index" class="btn btn-danger me-3">Cancel</a>
-                    <button type="submit" class="btn btn-success me-3">Save</button>
+                    <button type="submit" class="btn btn-success me-3"> Save</button>
                 </div>
 
             </form>

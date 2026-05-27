@@ -36,7 +36,7 @@
     }
 </style>
 
-<!-- GRID -->
+!-- GRID -->
 @if (!Model.Any())
 {
     <div class="text-center text-muted mt-5">
@@ -51,36 +51,37 @@ else
             <div class="col">
                 <div class="movie-card shadow h-100 d-flex flex-column">
 
-                    <img src="@(string.IsNullOrEmpty(movie.ImageUrl)
-                                    ? "https://placehold.co/300x450/1a1a1a/555?text=No+Image"
-                                    : movie.ImageUrl)"
-                         class="movie-img" alt="@movie.Title" />
+                    <a asp-controller="Movies" asp-action="Details" asp-route-id="@movie.Id"
+                       class="text-decoration-none">
+                        <img src="@(string.IsNullOrEmpty(movie.ImageUrl)
+                                                                     ? "https://placehold.co/300x450/1a1a1a/555?text=No+Image"
+                                                                     : movie.ImageUrl)"
+                             class="movie-img" alt="@movie.Title" />
 
-                    <!-- BODY -->
-                    <div class="card-body flex-grow-1 p-3">
-                        <h5 class="card-title mb-1 text-truncate" title="@movie.Title">@movie.Title</h5>
-                        <p class="card-text text-muted small mb-1">@movie.ReleaseYear &bull; @movie.Type</p>
-                        <p class="card-text text-muted small mb-2">@movie.Genre</p>
-                        <span class="rating-badge">
-                            ⭐ @((movie.Reviews != null && movie.Reviews.Any())
-                                    ? movie.Reviews.Average(r => r.Rating).ToString("0.0")
-                                    : "0.0")
-                        </span>
-                    </div>
+                        <!-- BODY -->
+                        <div class="card-body flex-grow-1 p-3">
+                            <h5 class="card-title mb-1 text-truncate" title="@movie.Title">@movie.Title</h5>
+                            <p class="card-text text-muted small mb-1">@movie.ReleaseYear &bull; @movie.Type</p>
+                            <p class="card-text text-muted small mb-2">@movie.Genre</p>
+                            <span class="rating-badge">
+                                ⭐ @((movie.Reviews != null && movie.Reviews.Any())
+                                                        ? movie.Reviews.Average(r => r.Rating).ToString("0.0")
+                                                        : "0.0")
+                            </span>
+                        </div>
+                    </a>
 
                     <!-- FOOTER -->
                     <div class="card-footer text-center py-2 d-flex justify-content-center gap-2">
-                        <a asp-action="Edit" asp-route-id="@movie.Id" class="btn btn-primary btn-sm">
+                        <a asp-controller="Movies" asp-action="Edit" asp-route-id="@movie.Id" class="btn btn-primary btn-sm">
                             Редактиране
                         </a>
-                        <a asp-action="Delete" asp-route-id="@movie.Id" class="btn btn-danger btn-sm">
+                        <a asp-controller="Movies" asp-action="Delete" asp-route-id="@movie.Id" class="btn btn-danger btn-sm">
                             Изтриване
                         </a>
                     </div>
                 </div>
-
             </div>
         }
-
     </div>
 }

@@ -1,0 +1,47 @@
+﻿@using Data
+@model Movie
+
+<div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.8);">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="background-color: #1a1a1a; border: 1px solid #2a2a2a; color: white;">
+
+            <div class="modal-header" style="border-bottom: 1px solid #2a2a2a;">
+                <h5 class="modal-title">Изтриване на филм</h5>
+            </div>
+
+            <div class="modal-body">
+                <div class="d-flex gap-3">
+
+                    <img src="@(string.IsNullOrEmpty(Model.ImageUrl)
+                                                             ? "https://placehold.co/100x150/1a1a1a/555?text=No+Image"
+                                                             : Model.ImageUrl)"
+                         style="width: 100px; height: 150px; object-fit: cover; border-radius: 6px;" />
+
+                    <div>
+                        <h5 class="mb-1">@Model.Title</h5>
+                        <p class="text-muted small mb-1">Режисьор: @Model.Director</p>
+                        <p class="text-muted small mb-1">Година: @Model.ReleaseYear</p>
+                        <p class="text-muted small mb-0">Жанр: @Model.Genre</p>
+                    </div>
+
+                </div>
+
+                <div class="alert mt-3 mb-0" style="background-color: #2a1a1a; border: 1px solid #5a2a2a; color: #ff8080;">
+                    Сигурни ли сте, че искате да изтриете този филм? Това действие е необратимо.
+                </div>
+            </div>
+
+            <div class="modal-footer" style="border-top: 1px solid #2a2a2a;">
+                <a asp-controller="Movies" asp-action="Index" class="btn btn-success me-3">
+                    Отказ
+                </a>
+                <form method="post" asp-controller="Movies" asp-action="Delete" asp-route-id="@Model.Id">
+                    <button type="submit" class="btn btn-danger me-3">
+                        Да, изтрий
+                    </button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>

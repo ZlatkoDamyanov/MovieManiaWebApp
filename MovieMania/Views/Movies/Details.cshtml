@@ -1,0 +1,123 @@
+﻿@using Data
+@model Movie
+
+<div class="container mt-4" style="max-width: 1080px;">
+    <div class="row g-4">
+
+        <!-- IMAGE -->
+        <div class="col-md-4 text-center">
+            <img src="@(string.IsNullOrEmpty(Model.ImageUrl)
+                                             ? "https://placehold.co/300x450/1a1a1a/555?text=No+Image"
+                                             : Model.ImageUrl)"
+                 class="img-fluid rounded shadow"
+                 style="max-height: 450px; object-fit: cover; width: 100%;" />
+        </div>
+
+        <!-- INFO -->
+        <div class="col-md-8">
+            <h2 class="mb-3">@Model.Title</h2>
+            <p class="mb-1"><strong>Режисьор:</strong> @Model.Director</p>
+            <p class="mb-1"><strong>Година:</strong> @Model.ReleaseYear</p>
+            <p class="mb-1"><strong>Жанр:</strong> @Model.Genre</p>
+            <p class="mb-1"><strong>Тип:</strong> @Model.Type</p>
+            <p class="mb-3"><strong>Времетраене:</strong> @Model.Duration мин.</p>
+
+            @if (!string.IsNullOrEmpty(Model.Description))
+            {
+                <p class="mb-3">@Model.Description</p>
+            }
+
+            <div class="mb-3">
+                <span class="rating-badge fs-5">
+                    ⭐ @((Model.Reviews != null && Model.Reviews.Any())
+                                        ? Model.Reviews.Average(r => r.Rating).ToString("0.0")
+                                        : "0.0")
+                </span>
+            </div>
+        </div>
+
+    </div>
+
+    <hr style="border-color: #2a2a2a;" class="my-4" />
+
+    <!-- АКТЬОРСКИ СЪСТАВ -->
+    <h4 class="mb-3">Актьорски състав</h4>
+    @if (Model.Actors != null && Model.Actors.Any())
+    {
+        <div class="d-flex flex-wrap gap-2 mb-4">
+            @foreach (var actor in Model.Actors)
+            {
+                <span class="badge px-3 py-2 fs-6"
+                      style="background-color: #1a1a1a; border: 1px solid #2a2a2a; color: white;">
+                    @actor.Name
+                </span>
+            }
+        </div>
+    }
+    else
+    {
+        <p class="text-muted">Няма добавени актьори.</p>
+    }
+
+    <hr style="border-color: #2a2a2a;" class="my-4" />
+
+    <!-- REVIEWS -->
+    <h4 class="mb-3">Рецензии</h4>
+    <div class="row g-3">
+        @if (Model.Reviews != null && Model.Reviews.Any())
+        {
+            @foreach (var review in Model.Reviews)
+            {
+                <div class="col-md-6">
+                    <div class="p-3 rounded" style="background-color: #1a1a1a; border: 1px solid #2a2a2a;">
+                        <strong>@(review.User != null ? review.User.Username : "Анонимен")</strong>
+                        <span class="rating-badge ms-2">⭐ @review.Rating</span>
+                        <p class="text-muted small mt-2 mb-0">@review.Content</p>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <p class="text-muted">Няма рецензии все още.</p>
+        }
+    </div>
+
+    <hr style="border-color: #2a2a2a;" class="my-4" />
+
+    <!-- ADD REVIEW -->
+    <h4 class="mb-3">Добави рецензия</h4>
+    <div style="max-width: 1080px;">
+        <form asp-controller="Movies" asp-action="AddReview" method="post">
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="movieId" value="@Model.Id" />
+
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <input name="username" class="form-control" placeholder="Потребителско име (незадължително)" />
+                </div>
+                <div class="col-md-6">
+                    <input name="email" type="email" class="form-control" placeholder="Имейл (незадължително)" />
+                </div>
+                <div class="col-12">
+                    <select name="rating" class="form-select">
+                        <option value="">Избери оценка</option>
+                        <option value="1">⭐</option>
+                        <option value="2">⭐⭐</option>
+                        <option value="3">⭐⭐⭐</option>
+                        <option value="4">⭐⭐⭐⭐</option>
+                        <option value="5">⭐⭐⭐⭐⭐</option>
+                    </select>
+                </div>
+                <div class="col-12">
+                    <textarea name="content" class="form-control" rows="3" placeholder="Напиши рецензията си..."></textarea>
+                </div>
+                <div class="col-12 d-flex justify-content-end">
+                    <button type="submit" class="btn btn-success">Изпрати</button>
+                </div>
+            </div>
+
+        </form>
+    </div>
+
+</div>
