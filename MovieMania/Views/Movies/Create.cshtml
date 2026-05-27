@@ -1,0 +1,51 @@
+﻿@using Data
+@model Movie
+
+<form method="post" asp-controller="Movies" asp-action="Create">
+    <legend>Add Movie</legend>
+
+    <div class="form-floating mb-3">
+        <input name="Title" type="text" class="form-control" placeholder="Movie title..." />
+        <label>Title</label>
+    </div>
+
+    <div class="form-floating mb-3">
+        <input name="Director" type="text" class="form-control" placeholder="Director..." />
+        <label>Director</label>
+    </div>
+
+    <div class="form-floating mb-3">
+        <input name="Genre" type="text" class="form-control" placeholder="Genres..." />
+        <label>Genres</label>
+    </div>
+
+    <div class="form-floating mb-3">
+        <input name="ReleaseYear" type="number" class="form-control" placeholder="Year..." />
+        <label>Year</label>
+    </div>
+
+    <div class="form-floating mb-3">
+        <input name="Duration" type="number" class="form-control" placeholder="Duration in minutes..." />
+        <label>Duration (minutes)</label>
+    </div>
+
+    <div class="form-floating mb-3">
+        <select name="Type" class="form-control">
+            <option value="0">Филм</option>
+            <option value="1">Сериал</option>
+        </select>
+        <label>Type</label>
+    </div>
+
+    <div class="form-floating mb-3">
+        <input name="ImageUrl" type="text" class="form-control" placeholder="Image URL..." />
+        <label>Image URL</label>
+    </div>
+
+    <div class="form-floating mb-3">
+        <textarea name="Description" class="form-control" placeholder="Description..." style="height:100px;"></textarea>
+        <label>Description</label>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Create</button>
+</form>

@@ -7,16 +7,6 @@
         color: white;
     }
 
-    .search-box input {
-        background-color: #1c1c1c;
-        border: none;
-        color: white;
-    }
-
-    .search-box input::placeholder {
-        color: #aaa;
-    }
-
     .movie-card {
         background-color: #1a1a1a;
         border: none;
@@ -32,66 +22,100 @@
     .movie-img {
         height: 300px;
         object-fit: cover;
+        width: 100%;
     }
 
-    .rating {
-        color: gold;
+    .rating-badge {
+        background-color: #d4a017;
+        color: black;
+        padding: 3px 8px;
+        font-weight: bold;
+        font-size: 14px;
+        display: inline-block;
+        border-radius: 4px;
+    }
+
+    .card-footer {
+        background-color: #111;
+        border-top: 1px solid #2a2a2a;
+    }
+
+    .pagination .page-link {
+        background-color: #1a1a1a;
+        border-color: #333;
+        color: white;
+    }
+
+    .pagination .page-link:hover {
+        background-color: #2a2a2a;
+        color: #d4a017;
+    }
+
+    .pagination .page-item.active .page-link {
+        background-color: #d4a017;
+        border-color: #d4a017;
+        color: black;
         font-weight: bold;
     }
 
-    .footer-btns a {
-        margin: 3px;
+    .pagination .page-item.disabled .page-link {
+        background-color: #111;
+        color: #555;
     }
 </style>
 
-<!-- Search -->
-<div class="d-flex justify-content-center align-items-center mb-4" style="height: 100px;">
-    <form method="get" class="w-50">
-        <input name="search" class="form-control form-control-lg" placeholder="🔍 Търсене на филми, сериали..." />
-    </form>
-</div> 
+<!-- GRID -->
+@if (!Model.Any())
+{
+    <div class="text-center text-muted mt-5">
+        <p class="fs-4">🎬 Няма намерени филми.</p>
+    </div>
+}
+else
+{
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 g-4 mb-4">
+        @foreach (var movie in Model)
+        {
+            <div class="col">
+                <div class="movie-card shadow h-100 d-flex flex-column">
 
-<!-- HEADER -->
-<div class="d-flex justify-content-between align-items-center mb-4">
-
-    <h2 class="mb-0">🎬 Movie Catalog</h2>
-
-    <a asp-action="Create" class="footer-btn btn-success btn-lg">
-        + Add Movie
-    </a>
-</div>
-
-    <!-- GRID -->
-    <div class=" container">
-        <div class="row">
-
-            @foreach (var movie in Model)
-            {
-                <div class="col-md-4 mb-4">
-                    <div class="movie-card shadow">
-
-                        <img src="@(string.IsNullOrEmpty(movie.ImageUrl)
-                                                     ? "https://via.placeholder.com/300x450"
-                                                     : movie.ImageUrl)"
-                     class="w-100 movie-img" />
+                    <img src="@(string.IsNullOrEmpty(movie.ImageUrl)
+                                    ? "https://placehold.co/300x450/1a1a1a/555?text=No+Image"
+                                    : movie.ImageUrl)"
+                         class="movie-img" alt="@movie.Title" />
 
                     <!-- BODY -->
-                    <div class="card-body">
-                        <h5 class="card-title">@movie.Title</h5>
-                        <p class="card-text">@movie.ReleaseYear • @movie.Type</p>
-                        <p class="card-text text-muted">@movie.Genre</p>
+                    <div class="card-body flex-grow-1 p-3">
+                        <h5 class="card-title mb-1 text-truncate" title="@movie.Title">@movie.Title</h5>
+                        <p class="card-text text-muted small mb-1">@movie.ReleaseYear &bull; @movie.Type</p>
+                        <p class="card-text text-muted small mb-2">@movie.Genre</p>
+                        <span class="rating-badge">
+                            ⭐ @((movie.Reviews != null && movie.Reviews.Any())
+                                    ? movie.Reviews.Average(r => r.Rating).ToString("0.0")
+                                    : "0.0")
+                        </span>
                     </div>
 
                     <!-- FOOTER -->
-                    <div class="card-footer text-center">
-                        <a asp-action="Details" asp-route-id="@movie.Id" class="btn btn-info btn-sm">Details</a>
-                        <a asp-action="Edit" asp-route-id="@movie.Id" class="btn btn-primary btn-sm">Edit</a>
-                        <a asp-action="Delete" asp-route-id="@movie.Id" class="btn btn-info btn-sm">Details</a>
+                    <div class="card-footer text-center py-2">
+                        <a asp-action="Details" asp-route-id="@movie.Id"
+                           class="btn btn-info btn-sm" title="Details">
+                            <i class="bi bi-eye"></i>
+                        </a>
+                        <a asp-action="Edit" asp-route-id="@movie.Id"
+                           class="btn btn-primary btn-sm" title="Edit">
+                            <i class="bi bi-pencil"></i>
+                        </a>
+                        <a asp-action="Delete" asp-route-id="@movie.Id"
+                           class="btn btn-danger btn-sm" title="Delete">
+                            <i class="bi bi-trash"></i>
+                        </a>
                     </div>
 
                 </div>
             </div>
         }
-
     </div>
-</div>
+    
+    }
+}
