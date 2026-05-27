@@ -1,6 +1,8 @@
 using Data;
 using Microsoft.EntityFrameworkCore;
 using Services.Helpers;
+using Services.Interfaces;
+using Services.Implementations;
 
 
 namespace MovieMania
@@ -10,11 +12,15 @@ namespace MovieMania
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
             // Add services to the container.
             builder.Services.AddControllersWithViews();
             builder.Services.AddDbContext<MovieCatalogDbContext>(options =>
                 options.UseSqlite($"Data Source={DbPath.GetPath()}"));
-        
+            builder.Services.AddScoped<IMovieService, MovieService>();
+            builder.Services.AddScoped<IUserService, UserService>();
+            builder.Services.AddScoped<IReviewService, ReviewService>();
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -33,7 +39,7 @@ namespace MovieMania
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Movie}/{action=Index}");
+                pattern: "{controller=Movies}/{action=Index}");
 
             app.Run();
         }
