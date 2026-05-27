@@ -2,11 +2,6 @@
 @model List<Movie>
 
 <style>
-    body {
-        background-color: #0e0e0e;
-        color: white;
-    }
-
     .movie-card {
         background-color: #1a1a1a;
         border: none;
@@ -38,29 +33,6 @@
     .card-footer {
         background-color: #111;
         border-top: 1px solid #2a2a2a;
-    }
-
-    .pagination .page-link {
-        background-color: #1a1a1a;
-        border-color: #333;
-        color: white;
-    }
-
-    .pagination .page-link:hover {
-        background-color: #2a2a2a;
-        color: #d4a017;
-    }
-
-    .pagination .page-item.active .page-link {
-        background-color: #d4a017;
-        border-color: #d4a017;
-        color: black;
-        font-weight: bold;
-    }
-
-    .pagination .page-item.disabled .page-link {
-        background-color: #111;
-        color: #555;
     }
 </style>
 
@@ -97,25 +69,18 @@ else
                     </div>
 
                     <!-- FOOTER -->
-                    <div class="card-footer text-center py-2">
-                        <a asp-action="Details" asp-route-id="@movie.Id"
-                           class="btn btn-info btn-sm" title="Details">
-                            <i class="bi bi-eye"></i>
+                    <div class="card-footer text-center py-2 d-flex justify-content-center gap-2">
+                        <a asp-action="Edit" asp-route-id="@movie.Id" class="btn btn-primary btn-sm">
+                            Редактиране
                         </a>
-                        <a asp-action="Edit" asp-route-id="@movie.Id"
-                           class="btn btn-primary btn-sm" title="Edit">
-                            <i class="bi bi-pencil"></i>
-                        </a>
-                        <a asp-action="Delete" asp-route-id="@movie.Id"
-                           class="btn btn-danger btn-sm" title="Delete">
-                            <i class="bi bi-trash"></i>
+                        <a asp-action="Delete" asp-route-id="@movie.Id" class="btn btn-danger btn-sm">
+                            Изтриване
                         </a>
                     </div>
-
                 </div>
+
             </div>
         }
+
     </div>
-    
-    }
 }

@@ -1,51 +1,67 @@
 ﻿@using Data
 @model Movie
 
-<form method="post" asp-controller="Movies" asp-action="Create">
-    <legend>Add Movie</legend>
+<div class="container py-4" style="max-width: 1080px;">
+    <h4 class="mb-4">Добавяне на Филм</h4>
 
-    <div class="form-floating mb-3">
-        <input name="Title" type="text" class="form-control" placeholder="Movie title..." />
-        <label>Title</label>
-    </div>
+    <form method="post" asp-controller="Movies" asp-action="Create">
 
-    <div class="form-floating mb-3">
-        <input name="Director" type="text" class="form-control" placeholder="Director..." />
-        <label>Director</label>
-    </div>
+        <div class="row g-3">
 
-    <div class="form-floating mb-3">
-        <input name="Genre" type="text" class="form-control" placeholder="Genres..." />
-        <label>Genres</label>
-    </div>
+            <div class="col-md-8">
+                <label class="form-label small">Заглавие</label>
+                <input name="Title" type="text" class="form-control form-control" placeholder="Филмово заглавие" />
+            </div>
 
-    <div class="form-floating mb-3">
-        <input name="ReleaseYear" type="number" class="form-control" placeholder="Year..." />
-        <label>Year</label>
-    </div>
+            <div class="col-md-4">
+                <label class="form-label small">Тип</label>
+                <select name="Type" class="form-select form-select">
+                    <option value="0">Филм</option>
+                    <option value="1">Сериал</option>
+                </select>
+            </div>
 
-    <div class="form-floating mb-3">
-        <input name="Duration" type="number" class="form-control" placeholder="Duration in minutes..." />
-        <label>Duration (minutes)</label>
-    </div>
+            <div class="col-md-6">
+                <label class="form-label small">Режисьор</label>
+                <input name="Director" type="text" class="form-control" placeholder="Режисьор" />
+            </div>
 
-    <div class="form-floating mb-3">
-        <select name="Type" class="form-control">
-            <option value="0">Филм</option>
-            <option value="1">Сериал</option>
-        </select>
-        <label>Type</label>
-    </div>
+            <div class="col-md-6">
+                <label class="form-label small">Жанр</label>
+                <input name="Genre" type="text" class="form-control" placeholder="Напр. Екшън, драма" />
+            </div>
 
-    <div class="form-floating mb-3">
-        <input name="ImageUrl" type="text" class="form-control" placeholder="Image URL..." />
-        <label>Image URL</label>
-    </div>
+            <div class="col-md-4">
+                <label class="form-label small">Година на излъчване</label>
+                <input name="ReleaseYear" type="number" class="form-control" placeholder="2024" />
+            </div>
 
-    <div class="form-floating mb-3">
-        <textarea name="Description" class="form-control" placeholder="Description..." style="height:100px;"></textarea>
-        <label>Description</label>
-    </div>
+            <div class="col-md-4">
+                <label class="form-label small">Времетраене(минути)</label>
+                <input name="Duration" type="number" class="form-control" placeholder="Напр. 120" />
+            </div>
 
-    <button type="submit" class="btn btn-primary">Create</button>
-</form>
+            <div class="col-md-4">
+                <label class="form-label small">Актьорски състав</label>
+                <input name="actorNames" type="text" class="form-control" placeholder=" Напр. Брад Пит, Анджелина Джоли..." />
+            </div>
+
+            <div class="col-12">
+                <label class="form-label small">Image URL</label>
+                <input name="ImageUrl" type="text" class="form-control" placeholder="https://..." />
+            </div>
+
+            <div class="col-12">
+                <label class="form-label small">Резюме</label>
+                <textarea name="Description" class="form-control" rows="3" placeholder="Кратко резюме на филма/сериала..."></textarea>
+            </div>
+
+        </div>
+
+        <div class="d-flex justify-content-end mt-4">
+            <a asp-controller="Movies" asp-action="Index" class="btn btn-danger me-3">Cancel</a>
+            <button type="submit" class="btn btn-success me-3">Save</button>
+        </div>
+
+    </form>
+</div>

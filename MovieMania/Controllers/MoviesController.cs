@@ -86,6 +86,27 @@ namespace MovieMania.Controllers
 
             return RedirectToAction("Details", new { id = movieId });
         }
+
+        [HttpPost]
+        public IActionResult Create(Movie movie, string? actorNames)
+        {
+            if (!string.IsNullOrEmpty(actorNames))
+            {
+                movie.Actors = actorNames
+                    .Split(',', StringSplitOptions.RemoveEmptyEntries)
+                    .Select(name => name.Trim())
+                    .Where(name => !string.IsNullOrEmpty(name))
+                    .Select(name => new Actor { Name = name })
+                    .ToList();
+            }
+            else
+            {
+                movie.Actors = new List<Actor>();
+            }
+
+            _movieService.Add(movie);
+            return RedirectToAction("Index");
+        }
         public IActionResult Edit(int id)
         {
             var movie = _movieService.GetById(id);

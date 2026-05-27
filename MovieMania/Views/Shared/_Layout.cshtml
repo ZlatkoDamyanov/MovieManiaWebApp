@@ -7,10 +7,64 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/MovieMania.styles.css" asp-append-version="true" />
+    <style>
+        html, body {
+            height: 100%;
+        }
+
+        body {
+            background-color: #0e0e0e;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background-color: #1a1a1a !important;
+            border-bottom: 1px solid #2a2a2a !important;
+        }
+
+        .navbar-brand, .nav-link {
+            color: white !important;
+        }
+
+        .form-control {
+            background-color: #2a2a2a;
+            border: 1px solid #333;
+            color: white;
+        }
+
+            .form-control::placeholder {
+                color: #888;
+            }
+
+            .form-control:focus {
+                background-color: #2a2a2a;
+                color: white;
+                border-color: #d4a017;
+                box-shadow: 0 0 0 0.2rem rgba(212, 160, 23, 0.25);
+            }
+
+        footer {
+            background-color: #1a1a1a;
+            border-top: 1px solid #2a2a2a !important;
+            color: #888 !important;
+            margin-top: auto;
+        }
+
+            footer a {
+                color: #d4a017;
+            }
+
+        .content-wrap {
+            flex: 1;
+        }
+    </style>
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm mb-3 sticky-top">
             <div class="container-fluid">
 
                 <a class="navbar-brand fw-bold" asp-controller="Movies" asp-action="Index">
@@ -25,21 +79,21 @@
                 </form>
 
                 <a asp-controller="Movies" asp-action="Create" class="btn btn-success text-nowrap">
-                    Add Movie
+                    Добавяне на филм
                 </a>
 
             </div>
         </nav>
     </header>
 
-    <div class="container">
+    <div class="container content-wrap">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
+    <footer class="py-3">
+        <div class="container text-center">
             &copy; 2026 - MovieMania
         </div>
     </footer>
