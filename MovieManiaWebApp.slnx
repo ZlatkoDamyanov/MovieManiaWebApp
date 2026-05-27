@@ -1,3 +1,5 @@
 <Solution>
+  <Project Path="Data/Data.csproj" />
   <Project Path="MovieMania/MovieMania.csproj" />
+  <Project Path="Services/Services.csproj" Id="b8bf9b4a-66b4-4bc7-b791-e23963b58bce" />
 </Solution>
