@@ -9,17 +9,14 @@
         overflow: hidden;
         transition: transform 0.2s;
     }
-
     .movie-card:hover {
         transform: scale(1.03);
     }
-
     .movie-img {
         height: 300px;
         object-fit: cover;
         width: 100%;
     }
-
     .rating-badge {
         background-color: #d4a017;
         color: black;
@@ -29,14 +26,12 @@
         display: inline-block;
         border-radius: 4px;
     }
-
     .card-footer {
         background-color: #111;
         border-top: 1px solid #2a2a2a;
     }
 </style>
 
-!-- GRID -->
 @if (!Model.Any())
 {
     <div class="text-center text-muted mt-5">
@@ -48,26 +43,25 @@ else
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 g-4 mb-4">
         @foreach (var movie in Model)
         {
+                var imageUrl = string.IsNullOrEmpty(movie.ImageUrl)
+                    ? "https://placehold.co/300x450/1a1a1a/555?text=No+Image"
+                    : movie.ImageUrl;
+
+                var rating = (movie.Reviews != null && movie.Reviews.Any())
+                    ? movie.Reviews.Average(r => r.Rating).ToString("0.0")
+                    : "0.0";
+        
             <div class="col">
                 <div class="movie-card shadow h-100 d-flex flex-column">
-
-                    <a asp-controller="Movies" asp-action="Details" asp-route-id="@movie.Id"
-                       class="text-decoration-none">
-                        <img src="@(string.IsNullOrEmpty(movie.ImageUrl)
-                                                                     ? "https://placehold.co/300x450/1a1a1a/555?text=No+Image"
-                                                                     : movie.ImageUrl)"
-                             class="movie-img" alt="@movie.Title" />
+                    <a asp-controller="Movies" asp-action="Details" asp-route-id="@movie.Id" class="text-decoration-none">
+                        <img src="@imageUrl" class="movie-img" alt="@movie.Title" />
 
                         <!-- BODY -->
                         <div class="card-body flex-grow-1 p-3">
                             <h5 class="card-title mb-1 text-truncate" title="@movie.Title">@movie.Title</h5>
                             <p class="card-text text-muted small mb-1">@movie.ReleaseYear &bull; @movie.Type &bull; @movie.Duration мин.</p>
                             <p class="card-text text-muted small mb-2">@movie.Genre</p>
-                            <span class="rating-badge">
-                                ⭐ @((movie.Reviews != null && movie.Reviews.Any())
-                                                        ? movie.Reviews.Average(r => r.Rating).ToString("0.0")
-                                                        : "0.0")
-                            </span>
+                            <span class="rating-badge">⭐ @rating</span>
                         </div>
                     </a>
 

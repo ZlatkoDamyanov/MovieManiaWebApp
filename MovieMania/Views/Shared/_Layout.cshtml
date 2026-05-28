@@ -1,12 +1,12 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="bg">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - MovieMania</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/MovieMania.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/MovieMania.styles.css" />
     <style>
         html, body {
             height: 100%;
@@ -60,28 +60,35 @@
         .content-wrap {
             flex: 1;
         }
+
+        .btn-add-movie {
+            color: white !important;
+        }
+
+            .btn-add-movie:hover {
+                color: white !important;
+                background-color: #198754;
+                border-color: #198754;
+                transform: none;
+            }
     </style>
 </head>
 <body>
     <header>
         <nav class="navbar navbar-expand-sm mb-3 sticky-top">
             <div class="container-fluid">
-
-                <a class="navbar-brand fw-bold" asp-controller="Movies" asp-action="Index">
+                <a class="navbar-brand fw-bold" href="/Movies/Index">
                     🎬 MovieMania
                 </a>
-
-                <form method="get" asp-controller="Movies" asp-action="Index" class="d-flex mx-3" style="width: 350px;">
+                <form method="get" action="/Movies/Index" class="d-flex mx-3" style="width: 350px;">
                     <input name="search"
                            class="form-control"
                            placeholder="🔍 Търсене на филми, сериали..."
                            value="@Context.Request.Query["search"]" />
                 </form>
-
-                <a asp-controller="Movies" asp-action="Create" class="btn btn-success text-nowrap">
+                <a href="/Movies/Create" class="btn btn-success text-nowrap btn-add-movie">
                     Добавяне на филм
                 </a>
-
             </div>
         </nav>
     </header>
@@ -100,7 +107,7 @@
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/site.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

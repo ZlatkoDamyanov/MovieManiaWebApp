@@ -1,16 +1,25 @@
 ﻿@using Data
 @model Movie
 
+@{
+    var imageUrl = string.IsNullOrEmpty(Model.ImageUrl)
+        ? "https://placehold.co/300x450/1a1a1a/555?text=No+Image"
+        : Model.ImageUrl;
+
+    var rating = (Model.Reviews != null && Model.Reviews.Any())
+        ? Model.Reviews.Average(r => r.Rating).ToString("0.0")
+        : "0.0";
+}
+
 <div class="container mt-4" style="max-width: 1080px;">
     <div class="row g-4">
 
         <!-- IMAGE -->
         <div class="col-md-4 text-center">
-            <img src="@(string.IsNullOrEmpty(Model.ImageUrl)
-                                                              ? "https://placehold.co/300x450/1a1a1a/555?text=No+Image"
-                                                              : Model.ImageUrl)"
+            <img src="@imageUrl"
                  class="img-fluid rounded shadow"
-                 style="max-height: 450px; object-fit: cover; width: 100%;" />
+                 style="max-height: 450px; object-fit: cover; width: 100%;"
+                 alt="@Model.Title" />
         </div>
 
         <!-- INFO -->
@@ -28,11 +37,7 @@
             }
 
             <div class="mb-3">
-                <span class="rating-badge fs-5">
-                    ⭐ @((Model.Reviews != null && Model.Reviews.Any())
-                                        ? Model.Reviews.Average(r => r.Rating).ToString("0.0")
-                                        : "0.0")
-                </span>
+                <span class="rating-badge fs-5">⭐ @rating</span>
             </div>
         </div>
 
@@ -80,7 +85,7 @@
                             </form>
                         </div>
                         <span class="rating-badge ms-2">⭐ @review.Rating</span>
-                        <p class="text-muted small mt-2 mb-0">@review.Content</p>
+                        <p class="mb-0">@review.Content</p>
                     </div>
                 </div>
             }
