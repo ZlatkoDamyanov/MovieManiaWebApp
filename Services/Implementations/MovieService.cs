@@ -15,17 +15,18 @@ namespace Services.Implementations
 
         public MovieService(MovieCatalogDbContext context)
         {
-            this._context = context;
+            _context = context;
         }
 
         public List<Movie> GetAll()
         {
             return _context.Movies
                 .Include(m => m.Reviews)
+                .Include(m => m.Actors)
                 .ToList();
         }
 
-        public Movie GetById(int id)
+        public Movie? GetById(int id)
         {
             return _context.Movies
                 .Include(m => m.Reviews)
@@ -55,6 +56,19 @@ namespace Services.Implementations
                 _context.Movies.Remove(movie);
                 _context.SaveChanges();
             }
+        }
+
+        public List<Actor> ParseActors(string? actorNames)
+        {
+            if (string.IsNullOrEmpty(actorNames))
+                return new List<Actor>();
+
+            return actorNames
+                .Split(',', StringSplitOptions.RemoveEmptyEntries)
+                .Select(name => name.Trim())
+                .Where(name => !string.IsNullOrEmpty(name))
+                .Select(name => new Actor { Name = name })
+                .ToList();
         }
     }
 }

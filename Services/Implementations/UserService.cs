@@ -34,13 +34,13 @@ namespace Services.Implementations
             return _context.Users.ToList();
         }
 
-        public User GetByEmail(string email)
+        public User? GetByEmail(string email)
         {
             return _context.Users
                 .FirstOrDefault(x => x.Email == email);
         }
 
-        public User GetById(int id)
+        public User? GetById(int id)
         {
             return _context.Users.Find(id);
         }

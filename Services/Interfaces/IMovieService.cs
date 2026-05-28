@@ -11,6 +11,8 @@ namespace Services.Interfaces
     {
         List<Movie> GetAll();
 
+        List<Actor> ParseActors(string? actorNames);
+
         Movie GetById(int id);
 
         void Add(Movie movie);

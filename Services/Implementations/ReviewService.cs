@@ -23,7 +23,7 @@ namespace Services.Implementations
         {
             if (rating < 1 || rating > 5)
             {
-                throw new Exception("Rating must be between 1 and 5!");
+                throw new ArgumentOutOfRangeException(nameof(rating), "Оценката трябва да е между 1 и 5.");
             }
 
             var review = new Review
@@ -36,6 +36,16 @@ namespace Services.Implementations
 
             _context.Reviews.Add(review);
             _context.SaveChanges();
+        }
+
+        public void DeleteReview(int id)
+        {
+            var review = _context.Reviews.Find(id);
+            if (review != null)
+            {
+                _context.Reviews.Remove(review);
+                _context.SaveChanges();
+            }
         }
 
         public List<Review> GetByMovie(int movieId)

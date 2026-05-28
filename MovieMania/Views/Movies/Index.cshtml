@@ -61,7 +61,7 @@ else
                         <!-- BODY -->
                         <div class="card-body flex-grow-1 p-3">
                             <h5 class="card-title mb-1 text-truncate" title="@movie.Title">@movie.Title</h5>
-                            <p class="card-text text-muted small mb-1">@movie.ReleaseYear &bull; @movie.Type</p>
+                            <p class="card-text text-muted small mb-1">@movie.ReleaseYear &bull; @movie.Type &bull; @movie.Duration мин.</p>
                             <p class="card-text text-muted small mb-2">@movie.Genre</p>
                             <span class="rating-badge">
                                 ⭐ @((movie.Reviews != null && movie.Reviews.Any())

@@ -50,7 +50,9 @@
 
                         <div class="col-md-4">
                             <label class="form-label small">Актьорски състав</label>
-                            <input name="actorNames" type="text" class="form-control" placeholder="Напр. Брад Пит, Анджелина Джоли..." />
+                            <input name="actorNames" type="text" class="form-control"
+                                   placeholder="Напр. Брад Пит, Анджелина Джоли..."
+                                   value="@(Model.Actors != null ? string.Join(", ", Model.Actors.Select(a => a.Name)) : "")" />
                         </div>
 
                         <div class="col-12">

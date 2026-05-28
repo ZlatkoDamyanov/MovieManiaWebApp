@@ -16,11 +16,6 @@ namespace MovieMania.Controllers
             _reviewService = reviewService;
             _userService = userService;
         }
-        public IActionResult Index()
-        {
-            var movies = _movieService.GetAll();
-            return View(movies);
-        }
 
         [HttpGet]
         public IActionResult Index(string search)
@@ -28,34 +23,50 @@ namespace MovieMania.Controllers
             var movies = _movieService.GetAll();
 
             if (!string.IsNullOrEmpty(search))
-            {
-                movies = movies
-                    .Where(m => m.Title.Contains(search))
-                    .ToList();
-            }
+                movies = movies.Where(m => m.Title.Contains(search, StringComparison.OrdinalIgnoreCase)).ToList();
 
+            ViewBag.Search = search;
+         
             return View(movies);
         }
-
+        
+        [HttpGet]
         public IActionResult Details(int id)
         {
             var movie = _movieService.GetById(id);
             var avgRating = _reviewService.GetAverageRating(id);
-
             ViewBag.AverageRating = $"{avgRating:f2}";
+
+            if (movie == null)
+            {
+                return NotFound();
+            }
 
             return View(movie);
         }
 
+        [HttpGet]
         public IActionResult Create()
         {
             return View();
         }
 
         [HttpPost]
-        public IActionResult Create(Movie movie)
+        public IActionResult Create(Movie movie, string? actorNames)
         {
+            if (!string.IsNullOrEmpty(actorNames))
+            {
+                movie.Actors = _movieService.ParseActors(actorNames);
+                _movieService.Add(movie);
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                movie.Actors = new List<Actor>();
+            }
+
             _movieService.Add(movie);
+
             return RedirectToAction("Index");
         }
 
@@ -67,13 +78,11 @@ namespace MovieMania.Controllers
             if (!string.IsNullOrEmpty(username) && !string.IsNullOrEmpty(email))
             {
                 var user = _userService.GetByEmail(email);
-
                 if (user == null)
                 {
                     _userService.AddUser(username, email);
                     user = _userService.GetByEmail(email);
                 }
-
                 userId = user.Id;
             }
 
@@ -87,42 +96,49 @@ namespace MovieMania.Controllers
             return RedirectToAction("Details", new { id = movieId });
         }
 
-        [HttpPost]
-        public IActionResult Create(Movie movie, string? actorNames)
-        {
-            if (!string.IsNullOrEmpty(actorNames))
-            {
-                movie.Actors = actorNames
-                    .Split(',', StringSplitOptions.RemoveEmptyEntries)
-                    .Select(name => name.Trim())
-                    .Where(name => !string.IsNullOrEmpty(name))
-                    .Select(name => new Actor { Name = name })
-                    .ToList();
-            }
-            else
-            {
-                movie.Actors = new List<Actor>();
-            }
-
-            _movieService.Add(movie);
-            return RedirectToAction("Index");
-        }
+        [HttpGet]
         public IActionResult Edit(int id)
         {
             var movie = _movieService.GetById(id);
+
+            if (movie == null)
+            {
+                return NotFound();
+            }
+
             return View(movie);
         }
 
         [HttpPost]
-        public IActionResult Edit(Movie movie)
+        public IActionResult Edit(Movie movie, string? actorNames)
         {
-            _movieService.Update(movie);
+            var existing = _movieService.GetById(movie.Id);
+            existing.Actors.Clear();
+
+            existing.Title = movie.Title;
+            existing.Director = movie.Director;
+            existing.Genre = movie.Genre;
+            existing.ReleaseYear = movie.ReleaseYear;
+            existing.Duration = movie.Duration;
+            existing.Type = movie.Type;
+            existing.ImageUrl = movie.ImageUrl;
+            existing.Description = movie.Description;
+            existing.Actors = _movieService.ParseActors(actorNames);
+
+            _movieService.Update(existing);
+
             return RedirectToAction("Index");
         }
 
+        [HttpGet]
         public IActionResult Delete(int id)
         {
             var movie = _movieService.GetById(id);
+            if (movie == null)
+            {
+                return NotFound();
+            }
+
             return View(movie);
         }
 
@@ -131,6 +147,13 @@ namespace MovieMania.Controllers
         {
             _movieService.Delete(id);
             return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public IActionResult DeleteReview(int id, int movieId)
+        {
+            _reviewService.DeleteReview(id);
+            return RedirectToAction("Details", new { id = movieId });
         }
     }
 }
